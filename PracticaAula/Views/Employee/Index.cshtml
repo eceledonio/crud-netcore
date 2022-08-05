@@ -1,0 +1,81 @@
+﻿@model IEnumerable<PracticaAula.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lista de empleados</h1>
+
+<p class="text-left">
+    <a class="btn btn-primary" asp-action="Create">Nuevo empleado</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+               Nombre completo
+            </th>
+            <th>
+               Cargo
+            </th>
+            <th>
+                Fecha de entrada
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Position)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfAdmission)
+            </td>
+            <td>
+                <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                <div class="btn-group">
+                    <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                        <button class="btn btn-danger" type="submit" onclick="return functionConfirm(event)">Eliminar</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts
+  {
+    <script type="text/javascript">   
+       function functionConfirm(event) 
+       {
+            swal(
+            {
+                title: 'Esta seguro de elimar este registro',
+                text: "No podrás recuperar este artículo.",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'No',
+                cancelButtonClass: 'btn btn-danger',
+                showConfirmButton: true,
+                confirmButtonText: 'Yes',
+                confirmButtonClass: 'btn btn-success'
+            }, 
+            function (isConfirm) {
+                if (isConfirm) {
+                    $('form').submit();
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+            return false;
+       }
+    </script>
+}
